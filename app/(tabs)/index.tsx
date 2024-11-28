@@ -1,14 +1,44 @@
+import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
+import { initializeApp } from 'firebase/app';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCX3wJryj8llcecCB68FvlWoX8JrqcK7VU",
+  projectId: "api-tutorial-d8317",
+  storageBucket: "api-tutorial-d8317.appspot.com",
+  appId: "1:1039986685048:ios:8e54551c4da00117bce98d"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
 export default function TabOneScreen() {
+  const [result, setResult] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const functions = getFunctions(app);
+        const helloWorld = httpsCallable(functions, 'helloWorld');
+        const response = await helloWorld();
+        setResult(response.data as string);
+      } catch (error) {
+        console.error('Error calling function:', error);
+        setResult('Error calling function');
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <Text style={styles.resultText}>{result || 'Loading...'}</Text>
     </View>
   );
 }
@@ -27,5 +57,10 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: '80%',
+  },
+  resultText: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
