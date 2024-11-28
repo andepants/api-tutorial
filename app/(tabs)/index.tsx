@@ -6,10 +6,10 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCX3wJryj8llcecCB68FvlWoX8JrqcK7VU",
-  projectId: "api-tutorial-d8317",
-  storageBucket: "api-tutorial-d8317.appspot.com",
-  appId: "1:1039986685048:ios:8e54551c4da00117bce98d"
+  apiKey: "",
+  projectId: "",
+  storageBucket: "",
+  appId: ""
 };
 
 // Initialize Firebase
